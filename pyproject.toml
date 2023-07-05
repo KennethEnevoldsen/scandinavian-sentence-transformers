@@ -13,12 +13,15 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: MacOS :: MacOS X",
   "Operating System :: Microsoft :: Windows",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10"
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-  "pydantic"
+  "pydantic>=1.0.0",
+  "datasets>=2.0.0",
+  "spacy>=3.5.0",
+  "transformers>=4.30.2",
+  "sentence-transformers>=2.2.2",
 ]
 
 [project.license]
@@ -32,7 +35,6 @@ dev = [
   "pre-commit>=2.20.0",
   "ruff>=0.0.254",
   "black[jupyter]>=22.8.0",
-  "pandas-stubs>=0.0.0", # type stubs for pandas
   "invoke==2.1.1",
 ]
 tests = [
@@ -41,16 +43,6 @@ tests = [
   "pytest-xdist>=3.0.0",
   "pytest-sugar>=0.9.4",
   "tox>=4.5.0",
-]
-docs = [
-  "sphinx>=5.3.0",
-  "furo>=2022.12.7",  # theme
-  "sphinx-copybutton>=0.5.1",
-  "sphinxext-opengraph>=0.7.3",
-  "sphinx_design>=0.3.0",
-  "sphinx_togglebutton>=0.2.3",
-  "myst-nb>=0.6.0",  # for rendering notebooks
-  "jupyter>=1.0.0",  # for tutorials
 ]
 
 
