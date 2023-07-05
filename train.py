@@ -1,27 +1,23 @@
-from sentence_transformers import (
-    LoggingHandler,
-    SentenceTransformer,
-    datasets,
-    evaluation,
-    losses,
-    models,
-    util,
-)
+from pathlib import Path
+
+import nltk
+from datasets import load_from_disk
+from sentence_transformers import SentenceTransformer, datasets, losses, models
 from torch.utils.data import DataLoader
 
-# Define your sentence transformer model using CLS pooling
-model_name = "bert-base-uncased"
+nltk.download("punkt")
+
+repo_dir = Path(__file__).resolve().parent
+dataset_path = repo_dir / "data" / "dfm_paragraphs"
+
+model_name = "vesteinn/DanskBERT"
 word_embedding_model = models.Transformer(model_name)
 pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension())
 model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 
-# Define a list with sentences (1k - 100k sentences)
-train_sentences = [
-    "Your set of sentences",
-    "Model will automatically add the noise",
-    "And re-construct it",
-    "You should provide at least 1k sentences",
-]
+
+paragraphs = load_from_disk(dataset_path)
+train_sentences = paragraphs["text"]
 
 # Create the special denoising dataset that adds noise on-the-fly
 train_dataset = datasets.DenoisingAutoEncoderDataset(train_sentences)
@@ -44,4 +40,5 @@ model.fit(
     show_progress_bar=True,
 )
 
-model.save("output/tsdae-model")
+models_path = repo_dir / "models"
+model.save(models_path / "dfm-sentence-encoder-medium")
