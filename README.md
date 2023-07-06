@@ -34,10 +34,18 @@ inv setup
 
 [pip]: https://pip.pypa.io/en/stable/installing/
 
-## Usage
+## Train model
 
 To train the models you wi
 ```python
 inv prepare_dataset --lang da
 inv train --model_name vesteinn/DanskBERT
 ```
+
+## Evaluate
+
+```python
+pip install scandeval
+scandeval --model-id dfm-sentence-encoder-medium
+```
+
